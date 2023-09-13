@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import { useRouter } from "vue-router";
+
+
 const isCollapse = ref(true);
 const router = useRouter();
 
@@ -25,16 +27,24 @@ const handleSelect=(key:string)=>{
             break;
     }
 }
+
+onMounted(()=>{
+})
+
 </script>
 
 <template>
     <el-menu
         defalut-active="2"
         :collapse="isCollapse"
-        class="h-full menu"
+        class="menu h-full relative"
+        background-color="#eff1f5"
+        text-color="#4c4f69"
+        active-text-color="#7287fd"
         @open="handleOpen"
         @close="handleClose"
         @select="handleSelect"
+        style="border-right-width: 1px;"
     >
         <el-menu-item v-if="isCollapse" index="1-1">
             <el-icon><Expand /></el-icon>
@@ -48,11 +58,18 @@ const handleSelect=(key:string)=>{
             <el-icon><House /></el-icon>
             <template #title>Home</template>
         </el-menu-item>
+        <div class="absolute bottom-0 left-0 right-0">
+          <el-menu-item>
+            <el-icon><User/></el-icon>
+            <template #title>Account</template>
+          </el-menu-item>
+        </div>
+
     </el-menu>
 </template>
 
 <style scoped>
-.menu:not(.el-menu--collapse) {
-  width: 120px;
+.menu:not(.el-menu--collapse){
+  width: 200px;
 }
 </style>
