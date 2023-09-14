@@ -3,39 +3,8 @@ import ScheduleCard from './ScheduleCard.vue';
 import Schedule from '@/models/Schedule';
 import {ref} from 'vue'
 
-const schedules = ref<Schedule[]>([]);
+const schedules = ref<Schedule[]>([])
 
-schedules.value.push(new Schedule({
-  name: "日程1",
-  description: "这是一个描述",
-  date:Date.now().toLocaleString(),
-  endDate:Date.now().toLocaleString(),
-}))
-
-schedules.value.push(new Schedule({
-  name: "日程2",
-  description: "这是一个描述",
-  date:Date.now().toLocaleString(),
-  endDate:Date.now().toLocaleString(),
-}))
-schedules.value.push(new Schedule({
-  name: "日程2",
-  description: "这是一个描述",
-  date:Date.now().toLocaleString(),
-  endDate:Date.now().toLocaleString(),
-}))
-schedules.value.push(new Schedule({
-  name: "日程2",
-  description: "这是一个描述",
-  date:Date.now().toLocaleString(),
-  endDate:Date.now().toLocaleString(),
-}))
-schedules.value.push(new Schedule({
-  name: "日程2",
-  description: "这是一个描述",
-  date:Date.now().toLocaleString(),
-  endDate:Date.now().toLocaleString(),
-}))
 </script>
 
 <template>

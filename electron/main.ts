@@ -20,6 +20,7 @@ let win: BrowserWindow | null
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
 function createWindow() {
+  console.log('createWindow')
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     minWidth:300,
@@ -57,6 +58,7 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
+  console.log('createWindow end')
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -77,4 +79,8 @@ app.on('activate', () => {
   }
 })
 
+// module.exports={
+//   store
+// }  
 app.whenReady().then(createWindow)
+

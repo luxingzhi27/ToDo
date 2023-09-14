@@ -4,6 +4,7 @@ import { ref } from 'vue';
 const cardShrink = ref(false);
 const closeShrink=ref(false);
 
+
 defineProps({
   schedule: {
     type: Object as () => Schedule,
@@ -23,7 +24,7 @@ const handleClose = () => {
   closeShrink.value=true;
   setTimeout(()=>{
     closeShrink.value=false;
-  },270)
+  },250)
 }
 
 
@@ -33,8 +34,8 @@ const handleClose = () => {
   <el-card class="card" :class="{'card-shrink':cardShrink}" @click="handleCardClick">
     <div class="card-header mb-2">
       <span class="text-2xl font-bold card-item-text">{{ schedule.name }}</span>
-      <div class="card-close-button p-2.5 flex" @click="handleClose" :class="{'card-close-button-shrink':closeShrink}">
-        <el-icon><Close/></el-icon>
+      <div class="card-close-button p-2.5 flex" @click.stop="handleClose">
+        <el-icon :class="{'card-close-button-shrink':closeShrink, 'card-close-button-not-shrink':!closeShrink}"><Close/></el-icon>
       </div>
     </div>
     <div class="flex-col justify-center">
@@ -44,7 +45,7 @@ const handleClose = () => {
       </div>
       <div class="card-item">
         <el-icon><Calendar /></el-icon>
-        <p class="mx-2.5 card-item-text">{{ new Date().toLocaleString() }}--{{ new Date().toLocaleString() }}</p>
+        <p class="mx-2.5 card-item-text">{{ schedule.date }}--{{ schedule.endDate }}</p>
       </div>
     </div>
   </el-card>
@@ -65,6 +66,16 @@ const handleClose = () => {
 .card.card-shrink{
   background-color:rgb(204, 208, 218,1.0);
   transform: scale(0.99);
+  transition: transform 0.15s ease-in-out;
+}
+
+.card-close-button-shrink{
+  transform: scale(0.75);
+  transition: transform 0.1s ease-in-out;
+}
+
+.card-close-button-not-shrink{
+  transform: scale(1);
   transition: transform 0.15s ease-in-out;
 }
 
