@@ -3,7 +3,7 @@ import DailyCard from './DailyCard.vue';
 </script>
 
 <template>
-  <div class="m-2.5 p-2.5">
+  <div class="mt-2.5 mx-5">
     <DailyCard />
   </div>
 </template>
