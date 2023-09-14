@@ -1,4 +1,4 @@
-import store from "@/store";
+const store=window.electron.store
 export default class Schedule{
     id: number;
     name: string;

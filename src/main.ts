@@ -2,11 +2,36 @@ import { createApp } from 'vue'
 import './assets/base.css'
 import App from './App.vue'
 import router from './router';
-import User from './models/User';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import User from "./models/User"
+declare global {
+  interface Window {
+    electron: {
+      store: {
+        get: (key: string) => any;
+        set: (key: string, val: any) => void;
+        // any other methods you've defined...
+        clear: () => void;
+      };
+    };
+  }
+}
 
+if(window.electron.store.get('user')===undefined){
+  window.electron.store.set('user',new User({
+    name:"anonymous",
+    sex:'male',
+    description:null,
+    avatar:'/default_user_avatar.png',
+    schedules:[],
+    email:'example@example.com',
+    phoneNumber:'12345678910',
+    location:'上海市杨浦区四平路1239号'
+  }))
+  window.electron.store.set('type',"anonymous")
+}
 
-console.log('main.ts')
+  
 const app=createApp(App).use(router)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

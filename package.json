@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "color-thief-ts": "^1.1.1",
     "electron-store": "^8.1.0",
     "element-plus": "^2.3.12",
+    "tinygradient": "^1.1.5",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },

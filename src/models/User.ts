@@ -1,11 +1,13 @@
 import Schedule from "./Schedule";
-import store from "@/store";
 
 export default class User {
   name: string='匿名用户';
   description: string|null=null;
   sex: string='male';
-  avatar: string='/public/default_user_avatar.png';
+  avatar: string='/default_user_avatar.png';
+  email: string='';
+  phoneNumber: string='';
+  location: string='';
   schedules: Schedule[]=[];
 
   public constructor(user:User) {
@@ -13,6 +15,9 @@ export default class User {
     this.description = user.description;
     this.sex=user.sex
     this.avatar=user.avatar
+    this.email=user.email
+    this.phoneNumber=user.phoneNumber
+    this.location=user.location
   }
 
 }
