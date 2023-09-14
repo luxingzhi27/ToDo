@@ -32,7 +32,7 @@ const isLogin=ref(store.get('type')==='anonymous'?false:true)
 }
 
 .main{
-  animation: fade-in 0.7s ease-in-out forwards;
+  animation: fade-in 0.6s ease-in-out forwards;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }

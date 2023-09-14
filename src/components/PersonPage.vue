@@ -150,7 +150,7 @@ onMounted(async () => {
   transform: scale(1.02);
 }
 .person-page{
-  animation: fade-in 0.7s ease-in-out forwards;
+  animation: fade-in 0.6s ease-in-out forwards;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
