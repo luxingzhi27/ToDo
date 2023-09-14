@@ -20,8 +20,10 @@ declare module 'vue' {
     HeaderBar: typeof import('./src/components/HeaderBar.vue')['default']
     MainMenu: typeof import('./src/components/MainMenu.vue')['default']
     MainPage: typeof import('./src/components/MainPage.vue')['default']
+    PersonPage: typeof import('./src/components/PersonPage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScheduleCard: typeof import('./src/components/ScheduleCard.vue')['default']
+    SearchBox: typeof import('./src/components/SearchBox.vue')['default']
   }
 }

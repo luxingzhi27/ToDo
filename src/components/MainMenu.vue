@@ -25,6 +25,9 @@ const handleSelect=(key:string)=>{
         case "2":
             router.push({path: "/"});
             break;
+        case "3":
+            router.push({path: "/person"});
+            break;
     }
 }
 
@@ -59,7 +62,7 @@ onMounted(()=>{
             <template #title>Home</template>
         </el-menu-item>
         <div class="absolute bottom-0 left-0 right-0">
-          <el-menu-item>
+          <el-menu-item index="3">
             <el-icon><User/></el-icon>
             <template #title>Account</template>
           </el-menu-item>

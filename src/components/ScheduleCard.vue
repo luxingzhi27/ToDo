@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Schedule from '@/models/Schedule'
-import { defineProps } from 'vue';
+import { ref } from 'vue';
+const cardShrink = ref(false);
+const closeShrink=ref(false);
 
 defineProps({
   schedule: {
@@ -9,14 +11,29 @@ defineProps({
   }
 })
 
+const handleCardClick = () => {
+  cardShrink.value=true;
+  setTimeout(()=>{
+    cardShrink.value=false;
+  },270)
+}
+
+const handleClose = () => {
+  console.log("close")
+  closeShrink.value=true;
+  setTimeout(()=>{
+    closeShrink.value=false;
+  },270)
+}
+
 
 </script>
 
 <template>
-  <el-card class="card">
+  <el-card class="card" :class="{'card-shrink':cardShrink}" @click="handleCardClick">
     <div class="card-header mb-2">
       <span class="text-2xl font-bold card-item-text">{{ schedule.name }}</span>
-      <div class="card-close-button p-2.5 flex">
+      <div class="card-close-button p-2.5 flex" @click="handleClose" :class="{'card-close-button-shrink':closeShrink}">
         <el-icon><Close/></el-icon>
       </div>
     </div>
@@ -38,10 +55,17 @@ defineProps({
 .card:hover{
   cursor: pointer;
   transform: scale(1.02);
+  background-color: rgb(204, 208, 218,1.0);
 }
 
 .card{
   background-color:rgb(204, 208, 218,0.6);
+}
+
+.card.card-shrink{
+  background-color:rgb(204, 208, 218,1.0);
+  transform: scale(0.99);
+  transition: transform 0.15s ease-in-out;
 }
 
 .card-close-button {
