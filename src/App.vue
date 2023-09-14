@@ -8,7 +8,9 @@ import MainMenu from './components/MainMenu.vue';
     <el-container style="background-color: #eff1f5">
       <el-header>
       </el-header>
-      <el-main></el-main>
+      <el-main>
+        <RouterView/>
+      </el-main>
     </el-container>
   </el-container>
 </template>
