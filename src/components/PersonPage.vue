@@ -4,6 +4,7 @@ import ColorThief from 'color-thief-ts'
 import tinygradient from 'tinygradient'
 const store=window.electron.store
 const user=ref(store.get('user'))
+user.value.description='照亮我的道路，并且不断地给我新的勇气去愉快地正视生活的理想，是善、美和真。要是没有志同道合者之间的亲切感情，要不是全神贯注于客观世界——那个在艺术和科学工作领域里永远达不到的对象，那末在我看来，生活就会是空虚的。人们所努力追求的庸俗的目标——财产、虚荣、奢侈的生活——我总觉得都是可鄙的。'
 const cardBackground = ref('rgb(76,79.105)')
 const cardFontColor = ref('rgb(76,79,105)')
 const isEditingName = ref(false)
@@ -45,7 +46,7 @@ const avatarLoaded = () => {
   let gradients = tinygradient(colors.map((v) => v.toString()))
   cardBackground.value = gradients.css()
   getImageBrightness(domImg, (brightness) => {
-    if (brightness < 155) {
+    if (brightness < 300) {
       cardFontColor.value = 'rgb(239, 241, 245)'
     }
   })
@@ -112,7 +113,7 @@ onMounted(async () => {
 <template>
   <div style="height: 100vh;" class="person-page">
     <p class="font-bold text-3xl text-color">个人主页</p>
-    <el-card class="mt-5" id="card" :style="`background:${cardBackground};`">
+    <el-card class="mt-5 card"  :style="`background:${cardBackground};`">
       <div class="flex align-middle">
         <img id="avatar" :src="user.avatar" class="mr-2.5" @load="avatarLoaded" alt=""/>
         <div class="flex flex-col ml-2.5">
@@ -141,12 +142,18 @@ onMounted(async () => {
         </div>
       </div>
     </el-card>
+    <el-card class="mt-2.5 card" :style="`background:${cardBackground}`">
+      <div>
+        <p class="text-2xl font-semibold mb-2" :style="`color:${cardFontColor}`">今日心情</p>
+        <p class="description" :style="`color:${cardFontColor}`">{{ user.description }}</p>
+      </div>
+    </el-card>
   </div>
 </template>
 
 <style scoped>
 
-#card:hover{
+.card:hover{
   transform: scale(1.02);
 }
 .person-page{
