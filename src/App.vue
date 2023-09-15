@@ -4,7 +4,9 @@ import MainMenu from './components/MainMenu.vue';
 
 <template>
   <el-container style="height: 100vh">
-    <MainMenu/>
+    <div class="h-full">
+      <MainMenu/>
+    </div>
     <el-container style="background-color: #eff1f5">
       <el-main>
         <RouterView/>

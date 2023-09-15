@@ -23,7 +23,7 @@ if(window.electron.store.get('user')===undefined){
     sex:'male',
     description:null,
     // avatar:'/default_user_avatar.png',
-    avatar:'https://tse2-mm.cn.bing.net/th/id/OIP-C.c8zRDGu25L7gTEa9DG2nPQAAAA?pid=ImgDet&rs=1',
+    avatar:'/luo.jpg',
     schedules:[],
     email:'example@example.com',
     phoneNumber:'12345678910',
