@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DailyCard from './DailyCard.vue';
 import HeaderBar from './HeaderBar.vue';
+import AddSchedule from './AddSchedule.vue';
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 const store=window.electron.store
@@ -10,7 +11,7 @@ const isLogin=ref(store.get('type')==='anonymous'?false:true)
 
 <template>
   <div class="mx-5" style="height: 100vh;position: relative;">
-    <div class="w-full main">
+    <div class="w-full main" v-if="isLogin">
       <HeaderBar v-if="isLogin"/>
       <DailyCard v-if="isLogin" />
     </div>
@@ -19,6 +20,7 @@ const isLogin=ref(store.get('type')==='anonymous'?false:true)
         <p class="font-bold text-3xl welcome-text"  @click="()=>{router.push('/person')}">欢迎使用,请先创建自己的资料</p>
       </div>
     </div>
+    <AddSchedule v-if="isLogin"/>
   </div>
 </template>
 
