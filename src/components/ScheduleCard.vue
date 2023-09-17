@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import Schedule from '@/models/Schedule'
-import { ref } from 'vue';
+import { ref} from 'vue';
 const cardShrink = ref(false);
 const closeShrink=ref(false);
 
 
-defineProps({
+const props=defineProps({
   schedule: {
     type: Object as () => Schedule,
     required: true
   }
 })
 
+const emit=defineEmits(['delete','change'])
+
 const handleCardClick = () => {
   cardShrink.value=true;
   setTimeout(()=>{
     cardShrink.value=false;
   },270)
+  emit('change',props.schedule.id)
 }
 
 const handleClose = () => {
@@ -25,6 +28,7 @@ const handleClose = () => {
   setTimeout(()=>{
     closeShrink.value=false;
   },250)
+  emit('delete',props.schedule.id)
 }
 
 
@@ -33,7 +37,7 @@ const handleClose = () => {
 <template>
   <el-card class="card" :class="{'card-shrink':cardShrink}" @click="handleCardClick">
     <div class="card-header mb-2">
-      <span class="text-2xl font-bold card-item-text">{{ schedule.name }}</span>
+      <span class="text-2xl font-bold card-item-text">{{ schedule.title }}</span>
       <div class="card-close-button p-2.5 flex" @click.stop="handleClose">
         <el-icon :class="{'card-close-button-shrink':closeShrink, 'card-close-button-not-shrink':!closeShrink}"><Close/></el-icon>
       </div>

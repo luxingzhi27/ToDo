@@ -1,34 +1,35 @@
 <script setup lang="ts">
 import ScheduleCard from './ScheduleCard.vue';
-import Schedule from '@/models/Schedule';
-import {ref} from 'vue'
-const store=window.electron.store
-const user=ref(store.get('user'))
-const schedules=ref(user.value.schedules)
-const addSchedule=()=>{
-  let schedule=new Schedule({
-    name:'写代码',
-    description:'要把ToDo再花一天时间写完',
-    date:new Date().toLocaleDateString(),
-    endDate:new Date().toLocaleDateString(),
-    id:114514
-  })
-  schedules.value.push(schedule)
-  store.set('user.schedules', JSON.parse(JSON.stringify(schedules.value)))
-}
+import Schedule from '@/models/Schedule'
 
 
-if(schedules.value.length===0){
-  addSchedule()
-  addSchedule()
-  addSchedule()
+defineProps({
+  schedules:{
+    type:Array as () => Schedule[],
+    required:true
+  }
+})
+
+
+const emit=defineEmits(['delete','change'])
+
+const handleDelete=(id:number)=>{
+  emit('delete',id)
 }
+
+const handleChange=(id:number)=>{
+  emit('change',id)
+}
+
 </script>
 
 <template>
   <el-scrollbar class="scrollbar">
-    <div class="flex-col justify-center mx-5">
-      <ScheduleCard v-for="(schedule,index) in schedules" :schedule="schedule" :key="index" class="my-4"/>
+    <div class="flex-col justify-center mx-5" v-if="schedules.length>0">
+      <ScheduleCard v-for="(schedule,index) in schedules" :schedule="schedule" :key="index" class="my-4" @delete="handleDelete" @change="handleChange"/>
     </div>
   </el-scrollbar>
 </template>
+
+<style scoped>
+</style>
