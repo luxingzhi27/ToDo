@@ -1,6 +1,9 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import path from 'node:path'
 import Store from 'electron-store';
+import fs from 'fs';
+import { v4 as uuid } from 'uuid';
+import {path as jpath }from 'path';
 
 const store = new Store();
 
@@ -14,6 +17,27 @@ ipcMain.on('electron-store-set', async (event, key, val) => {
 
 ipcMain.on('electron-store-clear', async (event) => {
   store.clear();
+});
+
+ipcMain.on('change-avatar', async (event, e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    const dataUrl = reader.result;
+    const base64Data = dataUrl.split(',')[1];
+    const buffer = Buffer.from(base64Data, 'base64');
+    const fileName = `${uuid()}.${file.name.split('.').pop()}`;
+    const avatarDir = jpath.join(__dirname, 'avatar');
+    if (!fs.existsSync(avatarDir)) {
+      fs.mkdirSync(avatarDir);
+    }
+    const filePath = jpath.join(avatarDir, fileName);
+    const writeStream = fs.createWriteStream(filePath);
+    writeStream.write(buffer);
+    writeStream.end();
+    store.set('user.avatar',filePath)
+  };
 });
 
 // The built directory structure
@@ -40,6 +64,8 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     minWidth:300,
     minHeight:300,
+    width:1000,
+    height:700,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

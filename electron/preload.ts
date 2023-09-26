@@ -17,8 +17,11 @@ contextBridge.exposeInMainWorld('electron', {
     }
   },
   // Any other methods you want to expose in the window object.
-  // ...
+  changeAvatar(e) {
+    ipcRenderer.send('change-avatar', e)
+  }
 });
+
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {

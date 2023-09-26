@@ -7,11 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AddSchedule: typeof import('./src/components/AddSchedule.vue')['default']
     DailyCard: typeof import('./src/components/DailyCard.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
-    ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
@@ -22,8 +20,6 @@ declare module 'vue' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElRadio: typeof import('element-plus/es')['ElRadio']
-    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElRate: typeof import('element-plus/es')['ElRate']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']

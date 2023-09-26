@@ -13,9 +13,13 @@ declare global {
         // any other methods you've defined...
         clear: () => void;
       };
+      changeAvatar:(e:any)=>void;
     };
   }
 }
+
+//调试用户信息
+// window.electron.store.clear()
 
 if(window.electron.store.get('user')===undefined){
   window.electron.store.set('user',new User({

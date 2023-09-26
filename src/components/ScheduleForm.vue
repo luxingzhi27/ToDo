@@ -23,6 +23,10 @@ const props=defineProps(
 const emit=defineEmits(['close','change'])
 
 const onSubmit=()=>{
+  if(new Date(scheduleForm.date).getTime()>new Date(scheduleForm.endDate).getTime()){
+    console.log('start date is bigger than end date')
+    return
+  }
   const schedules=ref(store.get('user.schedules'))
   if(props.scheduleId===-1){
     schedules.value.push({
@@ -55,6 +59,30 @@ const scheduleForm=reactive({
   endDate:"",
   importance:0
 })
+
+
+const shortcuts = [
+  {
+    text: '今天',
+    value: new Date(),
+  },
+  {
+    text: '明天',
+    value: () => {
+      const date = new Date()
+      date.setTime(date.getTime() + 3600 * 1000 * 24)
+      return date
+    },
+  },
+  {
+    text: '后天',
+    value: () => {
+      const date = new Date()
+      date.setTime(date.getTime() + 3600 * 1000 * 24 * 2)
+      return date
+    },
+  },
+]
 
 const handleBeforeClose = (done: () => void) => {
   done()
@@ -101,17 +129,21 @@ const handleOpen= ()=>{
       <el-form-item label="开始日期" required>
         <el-date-picker
           v-model="scheduleForm.date"
+          :shortcuts="shortcuts"
           type="date"
           placeholder="选择日期"
-          value-format="yyyy-MM-dd"
+          format="YYYY/MM/DD"
+          value-format="YYYY-MM-DD"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="结束日期" required>
         <el-date-picker
           v-model="scheduleForm.endDate"
+          :shortcuts="shortcuts"
           type="date"
           placeholder="选择日期"
-          value-format="yyyy-MM-dd"
+          format="YYYY/MM/DD"
+          value-format="YYYY-MM-DD"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="重要程度" required>
@@ -122,15 +154,8 @@ const handleOpen= ()=>{
       </el-form-item>
       <el-form-item>
         <el-row class="w-full">
-          <el-col :span="5">
-          </el-col>
-          <el-col :span="6">
-            <el-button type="primary" @click="onSubmit" color="rgb(114, 135, 253)" icon="Check" circle></el-button>
-          </el-col>
-          <el-col :span="2"/>
-          <el-col :span="6">
-            <el-button @click="closeDrawer" color="rgb(114,135,253)" icon="close" circle></el-button>
-          </el-col>
+          <el-button @click="onSubmit" color="rgb(114, 135, 253)" class="ml-5 mr-2.5">创建日程</el-button>
+          <el-button @click="closeDrawer" color="rgb(114,135,253)" class="mx-2.5">取消</el-button>
         </el-row>
       </el-form-item>
     </el-form>
@@ -144,6 +169,15 @@ const handleOpen= ()=>{
   --el-input-border-color:rgb(204, 208, 218);  
   /*获取焦点后的边框颜色*/  
   --el-input-focus-border-color:rgb(114, 135, 253);
+  /*鼠标悬停边框颜色*/  
+  --el-input-hover-border-color:rgb(108, 111, 133)	;
+}
+
+:deep(.el-date-editor) {
+  --el-input-border-color:rgb(204, 208, 218);  
+  /*获取焦点后的边框颜色*/  
+  --el-input-focus-border-color:rgb(114, 135, 253);
+  --el-input-focus-border:rgb(114, 135, 253);
   /*鼠标悬停边框颜色*/  
   --el-input-hover-border-color:rgb(108, 111, 133)	;
 }

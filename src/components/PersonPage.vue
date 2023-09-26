@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import {ref,onMounted} from 'vue'
+import { v4 as uuid } from 'uuid'
 import ColorThief from 'color-thief-ts'
 import tinygradient from 'tinygradient'
 const store=window.electron.store
 const user=ref(store.get('user'))
 console.log(user.value.avatar)
-user.value.description='照亮我的道路，并且不断地给我新的勇气去愉快地正视生活的理想，是善、美和真。要是没有志同道合者之间的亲切感情，要不是全神贯注于客观世界——那个在艺术和科学工作领域里永远达不到的对象，那末在我看来，生活就会是空虚的。人们所努力追求的庸俗的目标——财产、虚荣、奢侈的生活——我总觉得都是可鄙的。'
 const cardBackground = ref('rgb(76,79.105)')
 const cardFontColor = ref('rgb(76,79,105)')
 const isEditingName = ref(false)
 const isEditingEmail = ref(false)
 const isEditingPhoneNumber = ref(false)
 const isEditingLocation = ref(false)
+const isEditingDescription = ref(false)
 const isMale=ref(user.sex==='male'?true:false)
 
 function getImageBrightness(imgElement: HTMLImageElement, callback: (brightness: number) => void) {
@@ -61,7 +62,27 @@ const editName = () => {
   isEditingLocation.value = false
 }
 
+const editDescription = () => {
+  isEditingDescription.value = true
+  isEditingEmail.value = false
+  isEditingPhoneNumber.value = false
+  isEditingLocation.value = false
+  isEditingName.value = false
+}
+
+const commitDescription = () => {
+  if(user.value.description.length===0){
+    return
+  }
+  isEditingDescription.value = false
+  store.set('user.description', user.value.description)
+  store.set('type', 'user')
+}
+
 const commitName = () => {
+  if(user.value.name.length===0){
+    return
+  }
   isEditingName.value = false
   store.set('user.name', user.value.name)
   store.set('type', 'user')
@@ -75,6 +96,9 @@ const editEmail = () => {
 }
 
 const commitEmail = () => {
+  if(user.value.email.length===0){
+    return
+  }
   isEditingEmail.value = false
   store.set('user.email', user.value.email)
   store.set('type', 'user')
@@ -88,6 +112,9 @@ const editPhoneNumber = () => {
 }
 
 const commitPhoneNumber = () => {
+  if(user.value.phoneNumber.length===0){
+    return
+  }
   isEditingPhoneNumber.value = false
   store.set('user.phoneNumber', user.value.phoneNumber)
   store.set('type', 'user')
@@ -101,6 +128,9 @@ const editLocation = () => {
 }
 
 const commitLocation = () => {
+  if(user.value.location.length===0){
+    return
+  }
   isEditingLocation.value = false
   store.set('user.location', user.value.location)
   store.set('type', 'user')
@@ -120,6 +150,17 @@ const commitSex=()=>{
   }
 }
 
+
+const uid = ref(uuid())
+const changeAvatar=()=>{
+  document.getElementById(`uploader-${uid.value}`).click()
+}
+
+const handleAvatarChange = (e) => {
+  window.electron.changeAvatar(e)
+  window.location.reload()
+};
+
 onMounted(async () => {
   let domImg = document.querySelector('#avatar') as HTMLImageElement
   domImg.crossOrigin = ''
@@ -131,7 +172,7 @@ onMounted(async () => {
     <p class="font-bold text-3xl" style="color: rgb(108, 111, 133);">个人主页</p>
     <el-card class="mt-5 card"  :style="`background:${cardBackground};`">
       <div class="flex align-middle">
-        <img id="avatar" :src="user.avatar" class="mr-2.5" @load="avatarLoaded" alt=""/>
+        <img id="avatar" :src="user.avatar" @click="changeAvatar" class="mr-2.5" @load="avatarLoaded" alt=""/>
         <div class="flex flex-col ml-2.5" :style="{'--card-font-color':cardFontColor}">
           <div class="flex" style="align-items: center;">
             <el-icon :style="`color:${cardFontColor};`" class="mr-2.5"><UserFilled /></el-icon>
@@ -168,10 +209,18 @@ onMounted(async () => {
         </div>
       </div>
     </el-card>
-    <el-card class="mt-2.5 card" :style="`background:${cardBackground}`">
+    <el-card class="mt-2.5 card" :style="`background:${cardBackground};--card-font-color:${cardFontColor}`">
         <p class="text-2xl font-semibold mb-2" :style="`color:${cardFontColor}`">今日心情</p>
-        <p class="description" :style="`color:${cardFontColor}`">{{ user.description }}</p>
+        <p class="description" :style="`color:${cardFontColor}`" @dblclick="editDescription" v-if="!isEditingDescription">{{ user.description }}</p>
+        <el-input v-if="isEditingDescription" placeholder="请录入今日的感想吧" v-model="user.description" autosize @keyup.enter="commitDescription" @blur="commitDescription" type="textarea"></el-input>
     </el-card>
+    <input
+      type="file"
+      style="display: none"
+      accept="image/*"
+      :id="`uploader-${uid}`"
+      :on-change="handleAvatarChange"
+    />
   </div>
 </template>
 
@@ -241,6 +290,17 @@ onMounted(async () => {
   --el-input-hover-border-color:rgb(108, 111, 133)	;
 }
 
+.el-textarea {
+  --el-input-text-color:var(--card-font-color);
+  --el-input-bg-color:(0, 0, 0, 0);
+  --el-input-border-color:rgb(204, 208, 218);  
+  /*获取焦点后的边框颜色*/  
+  --el-input-focus-border-color:rgb(114, 135, 253);
+  /*鼠标悬停边框颜色*/  
+  --el-input-hover-border-color:rgb(108, 111, 133)	;
+  font-size: 1rem;
+}
+
 #avatar{
   width: 125px;
   height: 125px;
@@ -248,6 +308,9 @@ onMounted(async () => {
   border-radius: 50%;
 }
 
+#avatar:hover{
+  cursor: pointer;
+}
 
 @keyframes fade-in{
   0%{

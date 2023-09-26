@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElMessage } from 'element-plus';
 import DailyCard from './DailyCard.vue';
 import HeaderBar from './HeaderBar.vue';
 import ScheduleForm from './ScheduleForm.vue';
@@ -33,7 +34,7 @@ const changeSchedule=(id:number)=>{
         <p class="font-bold text-3xl welcome-text"  @click="()=>{router.push('/person')}">欢迎使用,请先创建自己的资料</p>
       </div>
     </div>
-    <div class="fixed bottom-1.5 right-10 p-4 add">
+    <div class="fixed bottom-1.5 right-10 p-4 add" v-if="isLogin">
       <el-button color="rgb(114, 135, 253)" icon="Plus" circle size="large" @click="()=>{
         drawer=true
         scheduleId=-1
