@@ -5,6 +5,9 @@ import ColorThief from 'color-thief-ts'
 import tinygradient from 'tinygradient'
 const store=window.electron.store
 const user=ref(store.get('user'))
+if(user.value.description===null||user.value.description.length===0){
+  user.value.description='点击此处输入今日心情'
+}
 console.log(user.value.avatar)
 const cardBackground = ref('rgb(76,79.105)')
 const cardFontColor = ref('rgb(76,79,105)')
@@ -211,7 +214,7 @@ onMounted(async () => {
     </el-card>
     <el-card class="mt-2.5 card" :style="`background:${cardBackground};--card-font-color:${cardFontColor}`">
         <p class="text-2xl font-semibold mb-2" :style="`color:${cardFontColor}`">今日心情</p>
-        <p class="description" :style="`color:${cardFontColor}`" @dblclick="editDescription" v-if="!isEditingDescription">{{ user.description }}</p>
+        <p class="description" :style="`color:${cardFontColor}`" @dblclick="editDescription" v-if="!isEditingDescription">{{ user.description.length }}</p>
         <el-input v-if="isEditingDescription" placeholder="请录入今日的感想吧" v-model="user.description" autosize @keyup.enter="commitDescription" @blur="commitDescription" type="textarea"></el-input>
     </el-card>
     <input
